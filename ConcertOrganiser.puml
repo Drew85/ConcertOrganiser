@@ -1,0 +1,68 @@
+@startuml
+
+class ConcertOrganiser {
+- concerts : List<Concert>
++ addConcert(concert : Concert) : void
+- bands : List<Band>
+- mUpBands : List<Band>
++ addBand (band : Band) : void
++ addWarmUpBand (warmUpBand : Band ) : void
+}
+
+abstract class Concert {
+- mainBand : Band
+- warmUpBand  : Band
+- capacity : int
+- style : Style
+- durationInMinutes : int
+- ticketPrice : BigDecimal
+- {static} MIN_PRICE : BigDecimal = 12000
+- {static} MAX_PRICE : BigDecimal = 15000
+- {static} CHANCE_OF_FULL_HOUSE : int = 80
+- {static} MIN_TICKETS_SOLD : int = 70
+- {static} MAX_TICKETS_SOLD : int = 80
+- beerPrice : BigDecimal
++ sellTickets () : int
+}
+
+class IndoorConcert extends Concert {
+- {static} CAPACITY : int = 3000
+- {static} DURATION : int = 90
+- {static} BEER_PRICE : BigDecimal = 600
+}
+
+class OutdoorConcert extends Concert {
+- {static} CAPACITY : int = 5000
+- {static} DURATION : int = 120
+- {static} RAIN_CHANCE : int = 30
+- {static} BEER_PRICE : BigDecimal = 800
++ isCanceled() : boolean
+}
+
+class FestivalConcert extends Concert {
+- {static} CAPACITY : int = 8000
+- {static} DURATION : int = 360
+- {static} BEER_PRICE : BigDecimal = 1000
+}
+
+class Band {
+- name : String
+- style : Style
+}
+
+
+
+enum Style {
+ROCK,
+POP,
+JAZZ;
+}
+
+
+ConcertOrganiser *-- Concert
+ConcertOrganiser *-- Band
+Concert - Band
+Concert -- Style
+Band -- Style
+
+@enduml
